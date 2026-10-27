@@ -1,0 +1,44 @@
+# Render Blueprint for the FastAPI backend (Dashboard -> New -> Blueprint -> pick this repo).
+# The database is external (Neon): paste its connection string into DATABASE_URL when Render asks.
+services:
+  - type: web
+    name: resolveai-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements-deploy.txt
+    # Migrations, office data and first admin on every start (all idempotent), then the API.
+    startCommand: python -m app.scripts.bootstrap && uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips="*"
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        sync: false # Neon connection string (secret, entered in the Render dashboard)
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false # the Vercel site URL, e.g. https://resolveai.vercel.app
+      - key: FRONTEND_URL
+        sync: false # same as CORS_ORIGINS
+      - key: SEED_ADMIN_EMAIL
+        sync: false
+      - key: SEED_ADMIN_NAME
+        sync: false
+      - key: SEED_ADMIN_PASSWORD
+        sync: false
+      - key: SEED_DEMO_DATA
+        value: "true" # loads FICTIONAL demo data once, only into an empty database
+      - key: DEMO_PASSWORD
+        sync: false
+      - key: VISION_DETECTOR_ENABLED
+        value: "false" # PyTorch/YOLO does not fit the free 512 MB instance
+      - key: GOOGLE_CLIENT_ID
+        sync: false # optional: OAuth Web client ID for "Continue with Google"
+      - key: GEMINI_API_KEY
+        sync: false # optional
+      - key: NOMINATIM_CONTACT_EMAIL
+        sync: false # optional, OpenStreetMap usage policy

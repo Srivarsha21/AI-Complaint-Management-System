@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "backend",
+      "runtimeExecutable": "C:\\Users\\julak\\Desktop\\amit\\backend\\.venv\\Scripts\\uvicorn.exe",
+      "runtimeArgs": ["app.main:app", "--reload", "--port", "8000", "--app-dir", "C:\\Users\\julak\\Desktop\\amit\\backend"],
+      "cwd": "C:\\Users\\julak\\Desktop\\amit\\backend",
+      "port": 8000
+    },
+    {
+      "name": "frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "C:\\Users\\julak\\Desktop\\amit\\frontend"],
+      "port": 5173
+    }
+  ]
+}

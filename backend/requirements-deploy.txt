@@ -1,0 +1,37 @@
+# Requirements for small hosted servers (e.g. Render free tier, 512 MB RAM).
+# Same as requirements.txt but WITHOUT ultralytics/PyTorch (several GB): photo
+# object detection is switched off (VISION_DETECTOR_ENABLED=false) and the app
+# falls back to OpenCV quality checks. Everything else works unchanged.
+
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.14.0
+pydantic-settings==2.7.0
+email-validator==2.2.0
+python-dotenv==1.0.1
+python-multipart==0.0.20
+
+sqlalchemy==2.0.36
+alembic==1.14.0
+psycopg[binary]==3.2.3
+
+pyjwt==2.10.1
+pwdlib[argon2]==0.2.1
+google-auth==2.61.0
+requests==2.34.2
+
+numpy==2.1.1
+pandas==3.0.6
+scikit-learn==1.9.1
+joblib==1.6.0
+
+# Image checks without the YOLO stack (headless = no GUI libraries needed on servers)
+opencv-python-headless==5.0.0.93
+pillow==12.3.0
+
+google-genai==2.29.0
+
+reportlab==4.4.0
+openpyxl==3.1.5
+
+httpx==0.28.1
